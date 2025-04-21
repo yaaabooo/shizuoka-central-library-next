@@ -7,10 +7,6 @@ import { trainingRecords } from "@/lib/data/trainingRecords";
 export default function HorizontalScrollTrainingMatrix() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6 overflow-x-auto">
-      <h1 className="text-3xl font-bold mb-6 text-left text-blue-800">
-        スタッフ別研修マトリクス
-      </h1>
-
       <div className="flex flex-nowrap gap-6 w-max">
         {staffData.map((staff) => {
           const record = trainingRecords.find((r) => r.name === staff.name);
