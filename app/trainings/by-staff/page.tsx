@@ -16,9 +16,18 @@ export default function HorizontalScrollTrainingMatrix() {
               key={staff.name}
               className="min-w-[220px] bg-white border rounded-2xl shadow-lg p-4"
             >
-              <div className="text-center text-white text-sm font-bold bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full px-4 py-2 mb-4 shadow-md tracking-wide">
-                {staff.name}
+              <div className="flex items-center justify-center gap-2 text-white text-sm font-bold bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full px-4 py-2 mb-4 shadow-md tracking-wide">
+                <span>{staff.name}</span>
+                <span className="flex gap-1">
+                  <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white text-indigo-700 text-xs font-semibold">
+                    {staff.experienceInThisLibrary || 0}
+                  </span>
+                  <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white text-purple-700 text-xs font-semibold">
+                    {staff.otherExperience || 0}
+                  </span>
+                </span>
               </div>
+
               <ul className="space-y-2">
                 {trainingPrograms.map((training) => {
                   const hasTaken = record?.trainings.some((t) =>
