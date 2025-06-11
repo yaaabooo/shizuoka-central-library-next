@@ -1,6 +1,4 @@
 import { google } from "googleapis";
-import { readFileSync } from "fs";
-import path from "path";
 
 // スプレッドシートごとの設定
 const SHEETS_CONFIG: {
@@ -43,11 +41,11 @@ export async function fetchMultipleSheetsSecure(): Promise<
 
   console.log("📡 fetching all sheets from multiple files");
 
-  const keyFilePath = path.resolve(
-    process.cwd(),
-    "credentials/shizuoka-central-library-next-13cea9525404.json"
-  );
-  const credentials = JSON.parse(readFileSync(keyFilePath, "utf8"));
+  const raw = process.env.GOOGLE_CREDENTIALS;
+  if (!raw) throw new Error("Missing GOOGLE_CREDENTIALS");
+
+  const credentials = JSON.parse(raw);
+  credentials.private_key = credentials.private_key.replace(/\\n/g, "\n");
 
   const auth = new google.auth.GoogleAuth({
     credentials,
