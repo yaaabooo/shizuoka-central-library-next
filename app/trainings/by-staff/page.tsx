@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { fetchMultipleSheetsSecure } from "@/lib/sheets/fetchSheetSecure";
 import HorizontalScrollTrainingMatrix from "./HorizontalScrollTrainingMatrix";
 

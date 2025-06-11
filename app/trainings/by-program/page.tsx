@@ -1,4 +1,4 @@
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 import TrainingMatrixByProgram from "./TrainingMatrixByProgram";
 import { fetchMultipleSheetsSecure } from "@/lib/sheets/fetchSheetSecure";
