@@ -11,16 +11,31 @@ export default async function Page() {
     trainingProgramsRaw,
   } = await fetchMultipleSheetsSecure();
 
-  const staffData = staffRaw.map((row) => ({
-    name: row["名前"] ?? "",
-    role: row["役職"] ?? "",
-    experienceInThisLibrary: Number(row["当館経験年数"]),
-    otherExperience: row["その他経験年数"]
-      ? Number(row["その他経験年数"])
-      : undefined,
-    totalExperience: Number(row["総経験年数"]),
-    schoolLibraryExperience: row["学校図書館経験あり"] === "はい",
-  }));
+  const staffData = staffRaw
+    // 不在に何か書いてある人は除外
+    .filter((row) => !row["不在"])
+    .map((row) => ({
+      name: row["名前"] ?? "",
+      role: row["役職"] ?? "",
+
+      experienceInThisLibrary:
+        row["当館経験年数"] !== "" ? Number(row["当館経験年数"]) : 0,
+
+      otherExperience:
+        row["その他図書館"] !== "" && row["その他図書館"] != null
+          ? Number(row["その他図書館"])
+          : undefined,
+
+      totalExperience: row["総経験年数"] !== "" ? Number(row["総経験年数"]) : 0,
+
+      // 新しい「その他」列（数値っぽいので数値化）
+      other:
+        row["その他"] !== "" && row["その他"] != null
+          ? Number(row["その他"])
+          : undefined,
+
+      schoolLibraryExperience: row["学校図書館経験あり"] === "はい",
+    }));
 
   const trainingRecords = trainingRecordsRaw.map((row) => ({
     name: row["名前"] ?? "",
