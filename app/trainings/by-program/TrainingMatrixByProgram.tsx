@@ -17,16 +17,19 @@ export default function TrainingMatrixByProgram({
   trainingRecordByTitle,
   trainingPrograms,
 }: Props) {
+  //console.dir(trainingRecordByTitle, { depth: null });
+  console.dir(trainingPrograms, { depth: null });
+
   return (
-    <div className="min-h-screen bg-slate-50 p-6 overflow-x-auto">
+    <div className="h-screen bg-slate-50 p-6 overflow-x-auto overflow-y-auto">
       <div className="flex flex-nowrap gap-4 w-max">
         {trainingRecordByTitle.map((training) => {
           const participantsSet = new Set(
-            training.entries.map((entry) => entry.participant)
+            training.entries.map((entry) => entry.participant),
           );
 
           const matchedProgram = trainingPrograms.find(
-            (tp) => normalizeTitle(tp.name) === normalizeTitle(training.name)
+            (tp) => normalizeTitle(tp.name) === normalizeTitle(training.name),
           );
 
           const mark = matchedProgram
@@ -38,14 +41,16 @@ export default function TrainingMatrixByProgram({
               key={training.name}
               className="min-w-[180px] bg-white border rounded-2xl shadow-md p-3"
             >
-              <div className="text-center text-white text-sm font-bold bg-gradient-to-r from-green-400 to-blue-500 rounded-full px-3 py-2 mb-3 shadow tracking-wide">
-                <span>{mark}</span> <span>{training.name}</span>
+              <div className="sticky top-0 z-20 bg-white pt-1 pb-3 shadow-sm">
+                <div className="text-center text-white text-sm font-bold bg-gradient-to-r from-green-400 to-blue-500 rounded-full px-3 py-2 shadow tracking-wide">
+                  <span>{mark}</span> <span>{training.name}</span>
+                </div>
               </div>
               <ul className="space-y-2">
                 {staffData.map((staff) => {
                   const hasTaken = participantsSet.has(staff.name);
                   const entry = training.entries.find(
-                    (e) => e.participant === staff.name
+                    (e) => e.participant === staff.name,
                   );
 
                   return (

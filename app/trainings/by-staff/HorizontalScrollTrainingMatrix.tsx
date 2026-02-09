@@ -12,10 +12,10 @@ export default function HorizontalScrollTrainingMatrix({
   trainingRecords: TrainingRecord[];
   trainingPrograms: Training[];
 }) {
-  //console.log(trainingRecords);
+  console.dir(trainingRecords, { depth: null });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6 overflow-x-auto">
+    <div className="h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-6 overflow-x-auto overflow-y-auto">
       <div className="flex flex-nowrap gap-6 w-max">
         {staffData.map((staff) => {
           const records = trainingRecords.filter((r) => r.name === staff.name);
@@ -25,16 +25,19 @@ export default function HorizontalScrollTrainingMatrix({
               key={staff.name}
               className="min-w-[220px] bg-white border rounded-2xl shadow-lg p-4"
             >
-              <div className="flex items-center justify-center gap-2 text-white text-sm font-bold bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full px-4 py-2 mb-4 shadow-md tracking-wide">
-                <span>{staff.name}</span>
-                <span className="flex gap-1">
-                  <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white text-indigo-700 text-xs font-semibold">
-                    {staff.experienceInThisLibrary || 0}
+              {/* スタッフ名ヘッダー */}
+              <div className="sticky top-0 z-20 bg-white pt-1 pb-3 shadow-sm">
+                <div className="flex items-center justify-center gap-2 text-white text-sm font-bold bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full px-4 py-2 shadow-md tracking-wide">
+                  <span>{staff.name}</span>
+                  <span className="flex gap-1">
+                    <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white text-indigo-700 text-xs font-semibold">
+                      {staff.experienceInThisLibrary || 0}
+                    </span>
+                    <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white text-purple-700 text-xs font-semibold">
+                      {staff.otherExperience || 0}
+                    </span>
                   </span>
-                  <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white text-purple-700 text-xs font-semibold">
-                    {staff.otherExperience || 0}
-                  </span>
-                </span>
+                </div>
               </div>
 
               <ul className="space-y-2">
@@ -45,19 +48,19 @@ export default function HorizontalScrollTrainingMatrix({
                     staff.totalExperience >= minYear &&
                     staff.totalExperience <= maxYear;
 
-                  const hasTaken = records.some((record) =>
+                  const hasTaken = records.some((record) => 
                     record.trainings.some(
                       (t) =>
                         normalizeTitle(t.title) ===
-                        normalizeTitle(training.name)
-                    )
+                        normalizeTitle(training.name),
+                    ),
                   );
 
                   const bgClass = hasTaken
                     ? "bg-blue-100 text-blue-900 font-semibold"
                     : isTarget
-                    ? "bg-yellow-100 text-yellow-800"
-                    : "text-gray-400 bg-white";
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "text-gray-400 bg-white";
 
                   const mark = training
                     ? getMarkForTraining(training.targetYearRange)
@@ -79,11 +82,11 @@ export default function HorizontalScrollTrainingMatrix({
                 {(() => {
                   // すべての受講研修タイトルを集める
                   const allTakenTitles = records.flatMap((r) =>
-                    r.trainings.map((t) => t.title)
+                    r.trainings.map((t) => t.title),
                   );
 
                   const normalizedProgramNames = trainingPrograms.map((tp) =>
-                    normalizeTitle(tp.name)
+                    normalizeTitle(tp.name),
                   );
 
                   const extraTrainings = [
@@ -91,9 +94,9 @@ export default function HorizontalScrollTrainingMatrix({
                       allTakenTitles.filter(
                         (title) =>
                           !normalizedProgramNames.includes(
-                            normalizeTitle(title)
-                          )
-                      )
+                            normalizeTitle(title),
+                          ),
+                      ),
                     ),
                   ];
 
